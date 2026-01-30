@@ -1,1 +1,3 @@
-# recipe-app-backend
+#Recipe Recommendation App — Backend
+-using SpringBoot
+
