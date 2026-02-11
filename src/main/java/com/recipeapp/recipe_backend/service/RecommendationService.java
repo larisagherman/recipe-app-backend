@@ -18,10 +18,10 @@ public class RecommendationService {
                 .build();
     }
 
-    public List<RecommendationResponse> getRecommendations(String query, int topK) {
-
+    public List<RecommendationResponse> getRecommendations(String query, int topK,List<String> forbiddenIngredients, boolean strict) {
+ 
         RecommendationRequest request =
-                new RecommendationRequest(query, topK);
+                new RecommendationRequest(query, topK,forbiddenIngredients,  strict);
 
         return webClient.post()
                 .uri("/recommend")

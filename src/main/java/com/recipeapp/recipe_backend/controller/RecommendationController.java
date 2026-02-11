@@ -16,6 +16,6 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
     @PostMapping
     public List<RecommendationResponse> recommend(@RequestBody RecommendationRequest recommendationRequest) {
-        return recommendationService.getRecommendations(recommendationRequest.query(),recommendationRequest.topK());
+        return recommendationService.getRecommendations(recommendationRequest.query(),recommendationRequest.topK(),recommendationRequest.forbiddenIngredients(),recommendationRequest.strict());
     }
 }
