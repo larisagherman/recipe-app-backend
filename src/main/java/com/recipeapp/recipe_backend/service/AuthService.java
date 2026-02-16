@@ -17,10 +17,12 @@ public class AuthService {
 
     private final RestTemplate restTemplate;
     private final String supabaseApiKey;
+    private final String supabaseUrl;
 
-    public AuthService(RestTemplate restTemplate, @Value("${supabase.apikey}") String supabaseApiKey) {
+    public AuthService(RestTemplate restTemplate, @Value("${supabase.apikey}") String supabaseApiKey,@Value("${SUPABASE_URL}") String supabaseUrl) {
         this.restTemplate = restTemplate;
         this.supabaseApiKey = supabaseApiKey;
+        this.supabaseUrl = supabaseUrl;
     }
 
     public Map<String, String> loginWithFirebaseToken(String token) throws FirebaseAuthException {
@@ -44,7 +46,7 @@ public class AuthService {
     }
 
     private void saveUserToSupabase(String uid, String name, String email) {
-        String url = "https://oyrfjahtvrawiecfwrlr.supabase.co/rest/v1/users";
+        String url = supabaseUrl;
 
         Map<String, Object> user = new HashMap<>();
         user.put("firebase_id", uid);
