@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 
@@ -40,20 +41,28 @@ public class AuthService {
     }
 
     private void saveUserToSupabase(String uid, String name, String email) {
-        String url = "https://<your-supabase-project>.supabase.co/rest/v1/users";
+        String url = "https://oyrfjahtvrawiecfwrlr.supabase.co/rest/v1/users";
 
-        Map<String, String> user = new HashMap<>();
-        user.put("id", uid);
+        Map<String, Object> user = new HashMap<>();
+        user.put("firebase_id", uid);
         user.put("name", name);
         user.put("email", email);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("apikey", "<your-supabase-key>");
-        headers.set("Authorization", "Bearer <your-supabase-key>");
+        headers.set("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cmZqYWh0dnJhd2llY2Z3cmxyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzM4NzIzMywiZXhwIjoyMDc4OTYzMjMzfQ.xYjxw0erDjs8YveHWBX8dJKSgjsk8CqtUa6qL7Wmpjo");
+        headers.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cmZqYWh0dnJhd2llY2Z3cmxyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzM4NzIzMywiZXhwIjoyMDc4OTYzMjMzfQ.xYjxw0erDjs8YveHWBX8dJKSgjsk8CqtUa6qL7Wmpjo");
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Prefer", "return=representation");
 
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(user, headers);
 
-        restTemplate.postForEntity(url, request, String.class);
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(user, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            System.out.println("Supabase response: " + response.getBody());
+        } catch (HttpClientErrorException e) {
+            System.err.println("Supabase error: " + e.getResponseBodyAsString());
+        }
     }
+
 }
