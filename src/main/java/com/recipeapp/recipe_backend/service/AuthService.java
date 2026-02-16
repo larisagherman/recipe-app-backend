@@ -3,6 +3,7 @@ package com.recipeapp.recipe_backend.service;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -15,9 +16,11 @@ import java.util.Map;
 public class AuthService {
 
     private final RestTemplate restTemplate;
+    private final String supabaseApiKey;
 
-    public AuthService(RestTemplate restTemplate) {
+    public AuthService(RestTemplate restTemplate, @Value("${supabase.apikey}") String supabaseApiKey) {
         this.restTemplate = restTemplate;
+        this.supabaseApiKey = supabaseApiKey;
     }
 
     public Map<String, String> loginWithFirebaseToken(String token) throws FirebaseAuthException {
@@ -49,8 +52,8 @@ public class AuthService {
         user.put("email", email);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cmZqYWh0dnJhd2llY2Z3cmxyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzM4NzIzMywiZXhwIjoyMDc4OTYzMjMzfQ.xYjxw0erDjs8YveHWBX8dJKSgjsk8CqtUa6qL7Wmpjo");
-        headers.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cmZqYWh0dnJhd2llY2Z3cmxyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzM4NzIzMywiZXhwIjoyMDc4OTYzMjMzfQ.xYjxw0erDjs8YveHWBX8dJKSgjsk8CqtUa6qL7Wmpjo");
+        headers.set("apikey", supabaseApiKey);
+        headers.set("Authorization", "Bearer"+supabaseApiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Prefer", "return=representation");
 
