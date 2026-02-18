@@ -11,13 +11,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/recipes")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000") // frontend origin
 public class RecipeController {
     private final RecipeService recipeService;
-    @GetMapping
-    public List<Recipe> getAllRecipes(){
-        return recipeService.getAllRecipes();
-    }
+
     @GetMapping("/page")
     public Map<String, Object> getRecipesPage(
             @RequestParam(defaultValue = "0") int page,
