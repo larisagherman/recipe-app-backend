@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 public class UserRecipeLogDTORequest{
     private Long userId;
     private Long recipeId;
-    private String rating;
     private LocalDateTime cookedAt;
-    private String notes;
 
 }
 
