@@ -22,6 +22,8 @@ public class AuthController {
             throws FirebaseAuthException {
 
         // Remove "Bearer " prefix
+        System.out.println("Authorization header: " + authHeader);
+
         String token = authHeader.replace("Bearer ", "");
 
         // Delegate all business logic to AuthService

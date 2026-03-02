@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/recommend")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000") // frontend origin
 public class RecommendationController {
     private final RecommendationService recommendationService;
     @PostMapping
