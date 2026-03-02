@@ -23,6 +23,7 @@ public class GeminiService {
                 .build();
     }
 
+
     public List<RecommendationResponse> detectIngredients(String base64Image, int topK, List<String> forbiddenIngredients, boolean strict) {
         String body = """
         {
@@ -41,7 +42,7 @@ public class GeminiService {
         """.formatted(base64Image);
 
         GeminiResponseDTO geminiResponse = webClient.post()
-                .uri("/v1beta/models/gemini-3-flash-preview:generateContent?key=" + apiKey)
+                .uri("/v1beta/models/gemini-2.5-flash-lite:generateContent?key=" + apiKey)
                 .header("Content-Type", "application/json")
                 .bodyValue(body)
                 .retrieve()
@@ -55,9 +56,6 @@ public class GeminiService {
         List<String> parsedIngredients = parseIngredients(detectedIngredients);
         System.out.println(parsedIngredients);
 
-        String query = String.join(" ", parsedIngredients);
-
-        System.out.println(query);
         // Use the detected ingredients as query with parameters from frontend
         return recommendationService.getRecommendations(
                 parsedIngredients, // query from Gemini
@@ -66,6 +64,7 @@ public class GeminiService {
                 strict // from frontend
         );
     }
+
 
     private String extractIngredientsText(GeminiResponseDTO response) {
         if (response != null &&
