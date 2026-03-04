@@ -23,7 +23,7 @@ public class GeminiController {
     public ResponseEntity<List<RecommendationResponse>> analyze(
             @Parameter(description = "Image file", required = true)
             @RequestPart("file") MultipartFile file,
-            @RequestParam(value = "topK", defaultValue = "10") int topK,
+            @RequestParam(value = "topK", defaultValue = "12") int topK,
             @RequestParam(value = "forbiddenIngredients", required = false) List<String> forbiddenIngredients,
             @RequestParam(value = "strict", defaultValue = "false") boolean strict
     ) throws IOException {
