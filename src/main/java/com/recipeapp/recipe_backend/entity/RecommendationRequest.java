@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record RecommendationRequest(
-        String query,
+        List<String> query,
         @JsonProperty("top_k")
         int topK,
         @JsonProperty("forbidden_ingredients")
