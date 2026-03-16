@@ -1,19 +1,16 @@
-package com.recipeapp.recipe_backend.dto;
+package com.recipeapp.recipe_backend.dto.savedRecipesLogs.bakedRecipesLogs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRecipeLogDTOResponse {
+public class UserSavedRecipeLogDTOResponse {
     private Long id;
     private Long userId;
     private Long recipeId;
-    private String rating;
-    private LocalDateTime cookedAt;
     private String notes;
 
 }

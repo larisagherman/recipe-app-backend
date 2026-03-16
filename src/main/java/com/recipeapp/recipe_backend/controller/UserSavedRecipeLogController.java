@@ -3,6 +3,8 @@ package com.recipeapp.recipe_backend.controller;
 import com.recipeapp.recipe_backend.dto.bakedRecipesLogs.UserRecipeLogDTORequest;
 import com.recipeapp.recipe_backend.dto.bakedRecipesLogs.UserRecipeLogDTOResponse;
 import com.recipeapp.recipe_backend.dto.bakedRecipesLogs.UserRecipeLogDTOUpdateRequest;
+import com.recipeapp.recipe_backend.dto.savedRecipesLogs.bakedRecipesLogs.UserSavedRecipeLogDTORequest;
+import com.recipeapp.recipe_backend.dto.savedRecipesLogs.bakedRecipesLogs.UserSavedRecipeLogDTOResponse;
 import com.recipeapp.recipe_backend.service.UserRecipeLogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,23 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-recipe-logs")
-public class UserRecipeLogController {
+@RequestMapping("/user-saved-recipe-logs")
+public class UserSavedRecipeLogController {
     private final UserRecipeLogService userRecipeLogService;
 
-    public UserRecipeLogController(UserRecipeLogService userRecipeLogService) {
+    public UserSavedRecipeLogController(UserRecipeLogService userRecipeLogService) {
         this.userRecipeLogService = userRecipeLogService;
     }
 
     @GetMapping("/{userId}")
-    public List<UserRecipeLogDTOResponse> getLogByUserId(@PathVariable Long userId) {
-        return userRecipeLogService.getLogByUserId(userId);
+    public List<UserSavedRecipeLogDTOResponse> getLogByUserId(@PathVariable Long userId) {
+        return userRecipeLogService.getSavedLogByUserId(userId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createLog(@RequestBody UserRecipeLogDTORequest request) {
-        userRecipeLogService.createLog(request);
+    public void createLog(@RequestBody UserSavedRecipeLogDTORequest request) {
+        userRecipeLogService.createSavedLog(request);
     }
 
     @PutMapping("/{logId}")
@@ -38,7 +40,7 @@ public class UserRecipeLogController {
     @DeleteMapping("/{logId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLog(@PathVariable Long logId) {
-        userRecipeLogService.deleteLog(logId);
+        userRecipeLogService.deleteSavedRecipeLog(logId);
     }
 }
 

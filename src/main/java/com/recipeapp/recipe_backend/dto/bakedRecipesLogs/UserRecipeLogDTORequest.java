@@ -1,4 +1,4 @@
-package com.recipeapp.recipe_backend.dto;
+package com.recipeapp.recipe_backend.dto.bakedRecipesLogs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
