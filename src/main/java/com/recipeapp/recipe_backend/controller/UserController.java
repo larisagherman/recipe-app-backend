@@ -1,26 +1,25 @@
 package com.recipeapp.recipe_backend.controller;
 
-import com.recipeapp.recipe_backend.entity.Users;
+import com.recipeapp.recipe_backend.entity.User;
 import com.recipeapp.recipe_backend.service.UsersService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @AllArgsConstructor
-public class UsersController {
+public class UserController {
     private final UsersService usersService;
 
     @GetMapping
-    public List<Users> getAllUsers() {
+    public List<User> getAllUsers() {
         return usersService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public Users getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable Long id) {
         return usersService.getUserById(id);
     }
 

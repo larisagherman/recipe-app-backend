@@ -8,7 +8,7 @@ import com.recipeapp.recipe_backend.dto.savedRecipesLogs.bakedRecipesLogs.UserSa
 import com.recipeapp.recipe_backend.entity.Recipe;
 import com.recipeapp.recipe_backend.entity.UserRecipeLog;
 import com.recipeapp.recipe_backend.entity.UserSavedRecipeLog;
-import com.recipeapp.recipe_backend.entity.Users;
+import com.recipeapp.recipe_backend.entity.User;
 import com.recipeapp.recipe_backend.mapper.UserRecipeLogMapper;
 import com.recipeapp.recipe_backend.repository.RecipeRepository;
 import com.recipeapp.recipe_backend.repository.UserRecipeLogRepository;
@@ -46,7 +46,7 @@ public class UserRecipeLogService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already has a log for this recipe");
         }
 
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         Recipe recipe = recipeRepository.findById(request.getRecipeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
@@ -63,7 +63,7 @@ public class UserRecipeLogService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already has a log for this recipe");
         }
 
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         Recipe recipe = recipeRepository.findById(request.getRecipeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
