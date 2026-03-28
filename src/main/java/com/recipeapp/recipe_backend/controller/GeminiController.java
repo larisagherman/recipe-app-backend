@@ -1,5 +1,8 @@
 package com.recipeapp.recipe_backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.recipeapp.recipe_backend.dto.GeneratedRecipeDTO;
+import com.recipeapp.recipe_backend.dto.RecipeDTO;
 import com.recipeapp.recipe_backend.entity.RecommendationResponse;
 import com.recipeapp.recipe_backend.service.GeminiService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,5 +42,14 @@ public class GeminiController {
                 base64, topK, forbiddenIngredients, strict
         );
         return ResponseEntity.ok(recommendations);
+    }
+
+    @GetMapping("/weekly-meal-plan/{userId}")
+    public ResponseEntity<GeneratedRecipeDTO> generateWeeklyMealPlan(
+            @Parameter(description = "User ID", required = true)
+            @PathVariable Long userId
+    ) throws JsonProcessingException {
+        GeneratedRecipeDTO mealPlan = geminiService.generateWeeklyMealPlanForUser(userId);
+        return ResponseEntity.ok(mealPlan);
     }
 }

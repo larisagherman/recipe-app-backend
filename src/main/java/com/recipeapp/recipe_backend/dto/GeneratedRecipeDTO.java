@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class RecipeDTO {
+public class GeneratedRecipeDTO {
     Long id;
     String name;
     String imgSrc;

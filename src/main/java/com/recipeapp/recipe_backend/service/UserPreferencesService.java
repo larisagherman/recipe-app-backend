@@ -25,8 +25,8 @@ public class UserPreferencesService {
         userPreferencesRepository.deleteById(userId);
     }
     public void updateUserPreferences(Long userId, UserPreferencesRequestDto userPreferencesRequestDto) {
-        UserPreferences existingUserPreferences = userPreferencesRepository.findById(userId).orElseThrow(() -> new RuntimeException("User preferences not found for user id: " + userId));
-        existingUserPreferences.setDietaryType(userPreferencesRequestDto.getDietaryType());
+        UserPreferences existingUserPreferences = userPreferencesRepository.findByUserId(userId);
+        existingUserPreferences.setDietaryTypes(userPreferencesRequestDto.getDietaryTypes());
         existingUserPreferences.setAllergies(userPreferencesRequestDto.getAllergies());
         existingUserPreferences.setDislikedIngredients(userPreferencesRequestDto.getDislikedIngredients());
         existingUserPreferences.setTastePreferences(userPreferencesRequestDto.getTastePreferences());

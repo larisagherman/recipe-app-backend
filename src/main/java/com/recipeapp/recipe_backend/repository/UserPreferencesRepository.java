@@ -8,5 +8,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserPreferencesRepository extends JpaRepository<UserPreferences, Long> {
 
-    UserPreferences findByUserId(Long userId);
+    UserPreferences findByUserId(@Param("userId") Long userId);
 }

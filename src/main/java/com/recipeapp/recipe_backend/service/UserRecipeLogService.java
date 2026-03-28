@@ -19,6 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @RequiredArgsConstructor
 @Service
@@ -101,6 +104,18 @@ public class UserRecipeLogService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Log not found");
         }
         userSavedRecipeLogRepository.deleteById(logId);
+    }
+
+    public List<UserRecipeLog> getLastWeekBakedRecipes(Long userId) {
+        LocalDateTime startOfThisWeek = LocalDate.now()
+                .with(DayOfWeek.MONDAY)
+                .atStartOfDay();
+
+        LocalDateTime startOfLastWeek = startOfThisWeek.minusWeeks(1);
+        LocalDateTime endOfLastWeek = startOfThisWeek;
+
+        return userRecipeLogRepository
+                .findByUserIdAndCookedAtBetween(userId, startOfLastWeek, endOfLastWeek);
     }
 }
 

@@ -1,0 +1,10 @@
+package com.recipeapp.recipe_backend.mapper;
+
+import com.recipeapp.recipe_backend.dto.GeneratedRecipeDTO;
+import com.recipeapp.recipe_backend.entity.GeneratedRecipe;
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface GeneratedRecipeMapper {
+    public GeneratedRecipe dtoToGeneratedRecipe(GeneratedRecipeDTO generatedRecipeDTO);
+}

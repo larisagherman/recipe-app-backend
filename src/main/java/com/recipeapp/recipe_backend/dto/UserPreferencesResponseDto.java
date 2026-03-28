@@ -11,10 +11,10 @@ import java.util.List;
 public class UserPreferencesResponseDto {
     private Long id;
     private Long userId;
-    private List<String> dietaryType;
+    private List<String> dietaryTypes;
     private List<String> allergies;
     private List<String> dislikedIngredients;
-    private List<String> tastePreferences;
+    private String tastePreferences;
     private List<String> flavourPreferences;
 }
 

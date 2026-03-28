@@ -15,13 +15,13 @@ public class UserPreferences {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @Column(name = "dietary_type")
-    private List<String> dietaryType;
+    @Column(name = "dietary_types")
+    private List<String> dietaryTypes;
     private List<String> allergies;
     @Column(name = "disliked_ingredients")
     private List<String> dislikedIngredients;
     @Column(name = "taste_preferences")
-    private List<String> tastePreferences;
+    private String tastePreferences;
     @Column(name = "flavour_preferences")
     private List<String> flavourPreferences;
 }
