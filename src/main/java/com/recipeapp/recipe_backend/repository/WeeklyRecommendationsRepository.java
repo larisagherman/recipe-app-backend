@@ -8,5 +8,5 @@ import java.sql.Date;
 import java.util.Optional;
 
 public interface WeeklyRecommendationsRepository extends JpaRepository<WeeklyRecommendations,Long> {
-    WeeklyRecommendations findByUserAndWeekStart(User user, Date weekStart);
+    WeeklyRecommendations findByUserAndWeekStart(User user, java.sql.Date weekStart);
 }
