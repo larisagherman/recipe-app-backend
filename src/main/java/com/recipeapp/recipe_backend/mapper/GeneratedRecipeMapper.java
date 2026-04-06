@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface GeneratedRecipeMapper {
     public GeneratedRecipe dtoToGeneratedRecipe(GeneratedRecipeDTO generatedRecipeDTO);
+    public GeneratedRecipeDTO generatedRecipeToDto(GeneratedRecipe generatedRecipe);
 }
