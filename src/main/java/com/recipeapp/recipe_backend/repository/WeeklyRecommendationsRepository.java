@@ -5,8 +5,11 @@ import com.recipeapp.recipe_backend.entity.WeeklyRecommendations;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface WeeklyRecommendationsRepository extends JpaRepository<WeeklyRecommendations,Long> {
     WeeklyRecommendations findByUserAndWeekStart(User user, java.sql.Date weekStart);
+
+    List<WeeklyRecommendations> findAllByUser(User user);
 }

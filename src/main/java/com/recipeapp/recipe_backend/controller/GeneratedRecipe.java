@@ -5,6 +5,8 @@ import com.recipeapp.recipe_backend.service.GeneratedRecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/generated-recipes")
 @AllArgsConstructor
@@ -14,4 +16,5 @@ public class GeneratedRecipe {
     public GeneratedRecipeDTO getGeneratedRecipeById(@PathVariable Long id){
         return generatedRecipeService.getGeneratedRecipeById(id);
     }
+
 }

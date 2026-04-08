@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,5 +58,11 @@ public class WeeklyRecommendationsService {
         weeklyRecommendations.setRecipe(generatedRecipe);
         weeklyRecommendationsRepository.save(weeklyRecommendations);
         return weeklyRecommendations;
+    }
+    public List<WeeklyRecommendationsResponseDTO> getAllWeeklyRecommendationsForUser(Long userId){
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+        List<WeeklyRecommendations> weeklyRecommendationsList = weeklyRecommendationsRepository.findAllByUser(user);
+        return weeklyRecommendationMapper.entityToResponseDtoList(weeklyRecommendationsList);
     }
 }
