@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Chat Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+</head>
+
+<body>
+<h2>Chat Test</h2>
+
+<div id="chat" style="border:1px solid #ccc; height:200px; overflow:auto; padding:10px;"></div>
+
+<input type="text" id="messageInput" placeholder="Type message..." />
+<input type="number" id="recipeIdInput" placeholder="Recipe ID" value="1" />
+<button onclick="sendMessage()">Send</button>
+
+<script>
+    let client;
+
+    function connect() {
+        const socket = new SockJS("http://localhost:8080/chat");
+
+        client = new StompJs.Client({
+            webSocketFactory: () => socket,
+            debug: (str) => console.log(str),
+            reconnectDelay: 5000,
+        });
+
+        client.onConnect = () => {
+            log("Connected!");
+
+            // Subscribe to messages
+            client.subscribe("/user/queue/chat", (message) => {
+                const body = JSON.parse(message.body);
+                log("Bot: " + (body.content || JSON.stringify(body)));
+            });
+        };
+
+        client.activate();
+    }
+
+    function sendMessage() {
+        const input = document.getElementById("messageInput");
+        const recipeId = document.getElementById("recipeIdInput").value;
+
+        const msg = input.value;
+
+        log("You: " + msg);
+
+        client.publish({
+            destination: "/app/chat.send",
+            body: JSON.stringify({
+                recipeId:Number(recipeId),
+                message: msg
+            })
+        });
+
+        input.value = "";
+    }
+
+    function log(message) {
+        const chat = document.getElementById("chat");
+        chat.innerHTML += "<div>" + message + "</div>";
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    connect();
+</script>
+</body>
+</html>

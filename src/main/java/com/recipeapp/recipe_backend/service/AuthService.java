@@ -20,7 +20,7 @@ public class AuthService {
     private final String supabaseApiKey;
     private final String supabaseUrl;
 
-    public AuthService(RestTemplate restTemplate, @Value("${supabase.apikey}") String supabaseApiKey,@Value("${SUPABASE_URL}") String supabaseUrl) {
+    public AuthService(RestTemplate restTemplate, @Value("${supabase.apikey}") String supabaseApiKey, @Value("${supabase.url}") String supabaseUrl) {
         this.restTemplate = restTemplate;
         this.supabaseApiKey = supabaseApiKey;
         this.supabaseUrl = supabaseUrl;
