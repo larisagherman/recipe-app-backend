@@ -11,9 +11,14 @@ import com.recipeapp.recipe_backend.repository.UserRecipeLogRepository;
 import com.recipeapp.recipe_backend.dto.GeminiResponseDTO;
 import com.recipeapp.recipe_backend.repository.UserPreferencesRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -256,5 +261,62 @@ public class GeminiService {
         return prompt.toString();
     }
 
+    public String askGemini(String prompt) {
 
+        Map<String, Object> body = Map.of(
+                "contents", List.of(
+                        Map.of(
+                                "parts", List.of(
+                                        Map.of("text", prompt)
+                                )
+                        )
+                )
+        );
+
+        String response = webClient.post()
+                .uri("/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey)
+                .header("Content-Type", "application/json")
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        try {
+            JsonNode root = objectMapper.readTree(response);
+
+            return root
+                    .path("candidates")
+                    .get(0)
+                    .path("content")
+                    .path("parts")
+                    .get(0)
+                    .path("text")
+                    .asText();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse Gemini response", e);
+        }
+    }
+
+    String buildChatPrompt(Recipe recipe, String userMessage) {
+        return """
+        You are a helpful baking assistant.
+
+        The user is currently baking this recipe:
+
+        Name: %s
+        Ingredients: %s
+        Instructions: %s
+
+        Answer the user's question clearly and concisely.
+        If they are confused, guide them step by step.
+
+        User question: %s
+        """.formatted(
+                recipe.getName(),
+                recipe.getIngredients(),
+                recipe.getDirections(),
+                userMessage
+        );
+    }
 }
