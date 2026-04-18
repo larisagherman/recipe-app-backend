@@ -19,7 +19,7 @@ public class ChatController {
             ChatMessageRequest request,
             SimpMessageHeaderAccessor headerAccessor
     ) {
-        System.out.println("🔥 MESSAGE RECEIVED: " + request.getMessage());
+        System.out.println("🔥 MESSAGE RECEIVED: " + request.getMessage()+ request.getIsGenerated());
 
         //String sessionId = headerAccessor.getSessionId();
 

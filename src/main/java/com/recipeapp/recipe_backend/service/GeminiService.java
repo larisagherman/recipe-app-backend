@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipeapp.recipe_backend.dto.GeneratedRecipeDTO;
 import com.recipeapp.recipe_backend.dto.RecipeDTO;
+import com.recipeapp.recipe_backend.dto.chatbox.ChatRecipeDTO;
 import com.recipeapp.recipe_backend.entity.*;
 import com.recipeapp.recipe_backend.repository.UserRecipeLogRepository;
 
@@ -298,7 +299,7 @@ public class GeminiService {
         }
     }
 
-    String buildChatPrompt(Recipe recipe, String userMessage) {
+    String buildChatPrompt(ChatRecipeDTO chatRecipe, String userMessage) {
         return """
         You are a helpful baking assistant.
 
@@ -307,15 +308,17 @@ public class GeminiService {
         Name: %s
         Ingredients: %s
         Instructions: %s
+        Servings: %s
 
         Answer the user's question clearly and concisely.
         If they are confused, guide them step by step.
 
         User question: %s
         """.formatted(
-                recipe.getName(),
-                recipe.getIngredients(),
-                recipe.getDirections(),
+                chatRecipe.getName(),
+                chatRecipe.getIngredients(),
+                chatRecipe.getDirections(),
+                chatRecipe.getServings(),
                 userMessage
         );
     }
