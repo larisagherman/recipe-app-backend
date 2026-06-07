@@ -1,14 +1,10 @@
 package com.recipeapp.recipe_backend.service;
 
-import com.recipeapp.recipe_backend.controller.GeneratedRecipe;
 import com.recipeapp.recipe_backend.dto.GeneratedRecipeDTO;
 import com.recipeapp.recipe_backend.mapper.GeneratedRecipeMapper;
 import com.recipeapp.recipe_backend.repository.GeneratedRecipeRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
