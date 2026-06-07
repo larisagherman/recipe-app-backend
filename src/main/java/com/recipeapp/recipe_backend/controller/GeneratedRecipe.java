@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/generated-recipes")
 @AllArgsConstructor
-public class GeneratedRecipe {
+public class GeneratedRecipeController {
     private final GeneratedRecipeService generatedRecipeService;
     @GetMapping("/{id}")
     public GeneratedRecipeDTO getGeneratedRecipeById(@PathVariable Long id){
