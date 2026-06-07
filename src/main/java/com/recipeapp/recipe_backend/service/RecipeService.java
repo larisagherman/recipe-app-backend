@@ -24,7 +24,6 @@ public class RecipeService {
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
     }
-    @Transactional(readOnly = true)
     public Map<String, Object> getRecipesPage(int page, int size) {
         Page<Recipe> recipePage = recipeRepository.findAll(PageRequest.of(page, size));
 
