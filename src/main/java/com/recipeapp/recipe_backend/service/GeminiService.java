@@ -7,6 +7,7 @@ import com.recipeapp.recipe_backend.dto.GeneratedRecipeDTO;
 import com.recipeapp.recipe_backend.dto.RecipeDTO;
 import com.recipeapp.recipe_backend.dto.chatbox.ChatRecipeDTO;
 import com.recipeapp.recipe_backend.entity.*;
+import com.recipeapp.recipe_backend.exception.NoIngredientsDetectedException;
 import com.recipeapp.recipe_backend.repository.UserRecipeLogRepository;
 
 import com.recipeapp.recipe_backend.dto.GeminiResponseDTO;
@@ -52,8 +53,23 @@ public class GeminiService {
         {
           "contents": [{
             "parts": [
-              {  "text": "List all ingredients visible in this image as a comma-separated list. Only include ingredient names, nothing else—no measurements, no locations, no extra words."},
-              {
+              {  "text": "You are an ingredient detection system for cooking applications.
+                
+                  Your task:
+                  - Determine if the image contains clear FOOD INGREDIENTS.
+    
+                  Rules:
+                  - Only consider edible ingredients (fruits, vegetables, meat, dairy, grains, spices, baking items)
+                  - Ignore animals, people, kitchen tools, plates, pans, utensils, furniture, and backgrounds
+    
+                  Output rules:
+                  - If food ingredients are clearly visible:
+                    → return ONLY a comma-separated list of ingredient names
+                  - If no clear food ingredients are visible:
+                    → return ONLY: NONE
+    
+                  Do not include explanations, sentences, or extra text."},
+                {
                 "inline_data": {
                   "mime_type": "image/jpeg",
                   "data": "%s"
@@ -75,7 +91,13 @@ public class GeminiService {
         // Extract the detected ingredients text from Gemini response (this is the query)
         String detectedIngredients = extractIngredientsText(geminiResponse);
         System.out.println(detectedIngredients);
+// 🚨 HANDLE NONE HERE (IMPORTANT)
+        if (detectedIngredients == null ||
+                detectedIngredients.isBlank() ||
+                detectedIngredients.equalsIgnoreCase("NONE")) {
 
+            throw new NoIngredientsDetectedException();
+        }
         List<String> parsedIngredients = parseIngredients(detectedIngredients);
         System.out.println(parsedIngredients);
 
@@ -165,7 +187,7 @@ public class GeminiService {
 
 
         String geminiResponse = webClient.post()
-                .uri("/v1beta/models/gemini-2.5-flash-lite:generateContent?key=" + apiKey)
+                .uri("/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey)
                 .header("Content-Type", "application/json")
                 .bodyValue(body)
                 .retrieve()
